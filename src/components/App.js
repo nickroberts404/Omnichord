@@ -13,10 +13,10 @@ export default class App extends Component {
 	updateChord(chord) {
 		const oldChord = this.state.chord;
 		if(oldChord){
-			this.state.synth.triggerRelease(getChord(oldChord).freq);
+			this.state.synth.triggerRelease(chordInfo(oldChord).freq);
 		}
 		if(chord) {
-			this.state.synth.triggerAttack(getChord(chord).freq);
+			this.state.synth.triggerAttack(chordInfo(chord).freq);
 		}
 		this.setState({chord})
 	}
@@ -31,7 +31,7 @@ export default class App extends Component {
 	}
 };
 
-function getChord(chord) {
+function chordInfo(chord) {
 	const notes = chord.intervals.map(chord.root.interval.bind(chord.root))
 	const freq = notes.map(i => i.fq());
 	return {notes, freq};
