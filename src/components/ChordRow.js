@@ -4,7 +4,6 @@ import ChordButton from './ChordButton';
 import teoria from 'teoria';
 
 const ChordRow = (props) => {
-	console.log(getChord('a', props.family.interval))
 	return (
 		<div className={styles.chordrow}>
 			{props.notes.map(i => <ChordButton 
