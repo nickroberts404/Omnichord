@@ -55,14 +55,14 @@ export default class App extends Component {
 			newChords = this.removeChord(chords, chord);
 			const newChord = newChords[newChords.length-1] || null;
 			const oldChord = chords[chords.length-1] || null;
-			// Don't do anything if a note is removed, but topmost note remains the same
-			if((newChord || oldChord) && (newChord.toString() !== oldChord.toString())){
+			if((newChord && oldChord) && (newChord.toString() === oldChord.toString())){
+				// Don't do anything if a note is removed, but topmost note remains the same
+			} else {
 				if(oldChord) synth.triggerRelease(chordInfo(oldChord).freq)
 				if(newChord) synth.triggerAttack(chordInfo(newChord).freq)
 			}
+			
 		}
-
-		console.log(newChords)
 		this.setState({chords: newChords})
 	}
 	
