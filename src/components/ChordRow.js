@@ -9,6 +9,7 @@ const ChordRow = (props) => {
 			{props.notes.map(i => <ChordButton 
 				root={i}
 				chord={getChord(i, props.family.interval)}
+				synth={props.synth}
 			/> )}
 		</div>
 	)
