@@ -13,7 +13,7 @@ const ChordGrid = (props) => (
 	</div>
 );
 
-const notes = ['a', 'a#', 'b', 'c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#'];
+const notes = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
 
 const chordFamilies = {
 	major: {
