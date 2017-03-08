@@ -21,7 +21,6 @@ export default class App extends Component {
 		window.addEventListener('keydown', e => {
 			const mapping = keyMap[e.keyCode];
 			if(mapping && !e.repeat) {
-				console.log(e)
 				this.updateChord(this.state.families[mapping[0]].chords[mapping[1]])
 			}
 		});
@@ -66,7 +65,7 @@ function getChord(note, suffix) {
 	return rootNote.chord(suffix);
 }
 
-const notes = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
+const notes = ['db', 'ab', 'eb', 'bb', 'f', 'c', 'g', 'd', 'a', 'e', 'b', 'f#'];
 
 const keys = [
 	[81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221],
