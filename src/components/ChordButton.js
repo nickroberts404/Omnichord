@@ -6,9 +6,9 @@ const ChordButton = (props) => {
 	return (
 		<div 
 			className={styles.chordbutton}
-			onMouseDown={() => updateChord(chord)}
-			onMouseOut={() => updateChord(null)}
-			onMouseUp={() => updateChord(null)}>
+			onMouseDown={() => updateChord(chord, true)}
+			onMouseOut={() => updateChord(chord, false)}
+			onMouseUp={() => updateChord(chord, false)}>
 			{root.toString()}
 		</div>
 	);

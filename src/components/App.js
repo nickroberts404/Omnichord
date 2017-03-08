@@ -10,7 +10,7 @@ export default class App extends Component {
 		super(props);
 		const synth = new Tone.PolySynth(4, Tone.Synth).toMaster();
 		this.state = {
-			chord: null,
+			chords: [],
 			hold: false,
 			families:[families.major, families.minor, families.seventh],
 			synth
@@ -21,21 +21,44 @@ export default class App extends Component {
 		window.addEventListener('keydown', e => {
 			const mapping = keyMap[e.keyCode];
 			if(mapping && !e.repeat) {
-				this.updateChord(this.state.families[mapping[0]].chords[mapping[1]])
+				const chord = this.state.families[mapping[0]].chords[mapping[1]];
+				this.updateChords(chord, true);
 			}
 		});
 		window.addEventListener('keyup', e => {
 			const mapping = keyMap[e.keyCode];
-			if(mapping) this.updateChord(null)
+			if(mapping) {
+				const chord = this.state.families[mapping[0]].chords[mapping[1]];
+				this.updateChords(chord, false);
+			}
 		});
 	}
 
-	updateChord(chord) {
-		const {chord: oldChord, synth, hold} = this.state;
-		if(oldChord && (chord || !hold)) synth.triggerRelease(chordInfo(oldChord).freq);
-		if(chord) synth.triggerAttack(chordInfo(chord).freq);
-		else if(hold) return false; // chord is null, but we're holding so keep the current chord
-		this.setState({chord}) // We have a new chord, or, if not holding, we have no chord.
+	addChord(old, chord) {
+		return old.concat([chord]);
+	}
+
+	removeChord(old, chord) {
+		return old.filter(i => chord.toString() !== i.toString());
+	}
+
+	updateChords(chord, add) {
+		let newChords;
+		const {chords, synth, hold} = this.state;
+
+		if(add) {
+			newChords = this.addChord(chords, chord);
+			if(chords.length > 0) synth.triggerRelease(chordInfo(chords[chords.length-1]).freq)
+			synth.triggerAttack(chordInfo(newChords[newChords.length-1]).freq)
+		}
+		else {
+			newChords = this.removeChord(chords, chord);
+			if(chords.length > 0) synth.triggerRelease(chordInfo(chords[chords.length-1]).freq)
+			if(newChords.length > 0) synth.triggerAttack(chordInfo(newChords[newChords.length-1]).freq)
+		}
+
+		console.log(newChords)
+		this.setState({chords: newChords})
 	}
 	
 	updateHold(hold) {
@@ -47,7 +70,7 @@ export default class App extends Component {
 		return (
 			<div className={styles.app}>
 				<h2>Omnichord</h2>
-				<ChordGrid families={families} notes={notes} updateChord={this.updateChord.bind(this)}/>
+				<ChordGrid families={families} notes={notes} updateChord={this.updateChords.bind(this)}/>
 				<HoldButton value={hold} updateHold={this.updateHold.bind(this)} />
 			</div>
 		)
@@ -55,6 +78,7 @@ export default class App extends Component {
 };
 
 function chordInfo(chord) {
+	console.log(chord)
 	const notes = chord.intervals.map(chord.root.interval.bind(chord.root))
 	const freq = notes.map(i => i.fq());
 	return {notes, freq};
