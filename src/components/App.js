@@ -19,9 +19,11 @@ export default class App extends Component {
 
 	componentWillMount() {
 		window.addEventListener('keydown', e => {
-			const mapping = keyMap(e.keyCode);
-			if(mapping) console.log(mapping)
-		})
+			const mapping = keyMap[e.keyCode];
+			if(mapping){
+				this.updateChord(this.state.families[mapping[0]].chords[mapping[1]]).bind(this)
+			}
+		});
 	}
 
 	updateChord(chord) {
@@ -63,7 +65,7 @@ const keys = [
 ];
 
 const keyMap = keys.reduce((obja, row, i) => {
-	let o = row.reduce((objb, code, j) => Object.assign({}, objb, {[code]: [i, j]}))
+	let o = row.reduce((objb, code, j) => Object.assign({}, objb, {[code]: [i, j]}), {})
 	return Object.assign({}, obja, o)
 }, {});
 
