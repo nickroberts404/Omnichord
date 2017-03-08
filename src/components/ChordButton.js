@@ -3,7 +3,6 @@ import styles from './ChordButton.css';
 
 const ChordButton = (props) => {
 	const { root, chord, updateChord } = props;
-	console.log(root)
 	return (
 		<div 
 			className={styles.chordbutton}

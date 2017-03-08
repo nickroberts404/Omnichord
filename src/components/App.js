@@ -20,9 +20,14 @@ export default class App extends Component {
 	componentWillMount() {
 		window.addEventListener('keydown', e => {
 			const mapping = keyMap[e.keyCode];
-			if(mapping){
-				this.updateChord(this.state.families[mapping[0]].chords[mapping[1]]).bind(this)
+			if(mapping && !e.repeat) {
+				console.log(e)
+				this.updateChord(this.state.families[mapping[0]].chords[mapping[1]])
 			}
+		});
+		window.addEventListener('keyup', e => {
+			const mapping = keyMap[e.keyCode];
+			if(mapping) this.updateChord(null)
 		});
 	}
 
@@ -56,6 +61,11 @@ function chordInfo(chord) {
 	return {notes, freq};
 }
 
+function getChord(note, suffix) {
+	const rootNote = teoria.note(note);
+	return rootNote.chord(suffix);
+}
+
 const notes = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
 
 const keys = [
@@ -86,32 +96,3 @@ const families = {
 		chords: notes.map(i => getChord(i, 'maj7'))
 	}
 };
-
-function getChord(note, suffix) {
-	const rootNote = teoria.note(note);
-	return rootNote.chord(suffix);
-}
-
-/**
-familySet = [major, minor, seventh]
-keyPress{
-	coord = map(keycode)
-	familySet[coord[0]].chords[familySet[choord1]]
-}
-{
-	145: chord,
-	23: chord,
-}
-chords: {
-	major: {
-		title,
-		suffix,
-		chords: [
-			a, b, c, d, e, f, g
-		]
-	}
-}
-<ChordGrid families=[major, minor, seventh] />
-
-<ChordRow
-**/
