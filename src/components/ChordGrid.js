@@ -10,13 +10,14 @@ const ChordGrid = () => (
 		<ChordRow family={chordFamilies.seventh} />
 	</div>
 );
+
 const chordFamilies = {
 	major: {
 		title: 'Major',
-		interval: daccord('maj')
+		interval: daccord('M')
 	},
 	minor: {
-		title: 'minor',
+		title: 'Minor',
 		interval: daccord('min')
 	},
 	seventh: {
