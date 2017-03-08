@@ -8,16 +8,16 @@ const ChordRow = (props) => {
 		<div className={styles.chordrow}>
 			{props.notes.map(i => <ChordButton 
 				root={i}
-				chord={getChord(i, props.family.interval)}
-				synth={props.synth}
+				chord={getChord(i, props.family.suffix)}
+				updateChord={props.updateChord}
 			/> )}
 		</div>
 	)
 };
 
-function getChord(note, interval) {
+function getChord(note, suffix) {
 	const rootNote = teoria.note(note);
-	return interval.map(rootNote.interval.bind(rootNote));
+	return rootNote.chord(suffix);
 }
 
 export default ChordRow;

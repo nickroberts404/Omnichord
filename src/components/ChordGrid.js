@@ -3,32 +3,30 @@ import styles from './ChordGrid.css';
 import ChordRow from './ChordRow';
 import RootRow from './RootRow';
 import daccord from 'daccord';
-import Tone from 'Tone';
 
-const ChordGrid = () => (
+const ChordGrid = (props) => (
 	<div className={styles.chordgrid}>
 		<RootRow notes={notes} />
-		<ChordRow family={chordFamilies.major} {...{synth, notes}}/>
-		<ChordRow family={chordFamilies.minor} {...{synth, notes}}/>
-		<ChordRow family={chordFamilies.seventh} {...{synth, notes}}/>
+		<ChordRow family={chordFamilies.major} notes={notes} updateChord={props.updateChord}/>
+		<ChordRow family={chordFamilies.minor} notes={notes} updateChord={props.updateChord}/>
+		<ChordRow family={chordFamilies.seventh} notes={notes} updateChord={props.updateChord}/>
 	</div>
 );
 
-const synth = new Tone.PolySynth(4, Tone.Synth).toMaster();
 const notes = ['a', 'a#', 'b', 'c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#'];
 
 const chordFamilies = {
 	major: {
 		title: 'Major',
-		interval: daccord('M')
+		suffix: 'M'
 	},
 	minor: {
 		title: 'Minor',
-		interval: daccord('min')
+		suffix: 'm'
 	},
 	seventh: {
 		title: '7th',
-		interval: daccord('maj7')
+		suffix: 'maj7'
 	}
 }
 
