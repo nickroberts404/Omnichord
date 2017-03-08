@@ -53,8 +53,13 @@ export default class App extends Component {
 		}
 		else {
 			newChords = this.removeChord(chords, chord);
-			if(chords.length > 0) synth.triggerRelease(chordInfo(chords[chords.length-1]).freq)
-			if(newChords.length > 0) synth.triggerAttack(chordInfo(newChords[newChords.length-1]).freq)
+			const newChord = newChords[newChords.length-1] || null;
+			const oldChord = chords[chords.length-1] || null;
+			// Don't do anything if a note is removed, but topmost note remains the same
+			if((newChord || oldChord) && (newChord.toString() !== oldChord.toString())){
+				if(oldChord) synth.triggerRelease(chordInfo(oldChord).freq)
+				if(newChord) synth.triggerAttack(chordInfo(newChord).freq)
+			}
 		}
 
 		console.log(newChords)
