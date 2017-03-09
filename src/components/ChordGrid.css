@@ -1,2 +1,4 @@
 .chordgrid {
+	display: flex;
+	flex-direction: column;
 }

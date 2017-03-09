@@ -3,10 +3,26 @@
 	height: 30px;
 	border: 1px solid #eee;
 	margin-right: 5px;
+	cursor: pointer;
+	border-radius: 6px;
+	transition: 0.15s ease all;
 }
+.chord-button:hover {
+	background: #d1c4e9;
+	border-color: #d1c4e9;
+}
+
 .active {
-	background: red;
+	background: #9575cd;
+	border-color: #9575cd;
 }
+
+.active:hover {
+	background: #9575cd;
+	border-color: #9575cd;
+}
+
 .held {
-	background: #eee;
+	background: #d1c4e9;
+	border-color: #d1c4e9;
 }

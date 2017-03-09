@@ -92,7 +92,7 @@ function getChord(note, suffix) {
 	return rootNote.chord(suffix);
 }
 
-const notes = ['db', 'ab', 'eb', 'bb', 'f', 'c', 'g', 'd', 'a', 'e', 'b', 'f#'];
+const notes = ['Db', 'Ab', 'Eb', 'Bb', 'F', 'C', 'G', 'D', 'A', 'E', 'B', 'F#'];
 
 const keys = [
 	[81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221],

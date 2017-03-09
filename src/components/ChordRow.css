@@ -1,10 +1,29 @@
 .chord-row {
 	display: flex;
 	margin-top: 5px;
+	justify-content: space-between;
+	width: 670px;
 }
-.chord-row-title {
-	width: 100px;
-}
-.chord-row-buttons {
+
+.title {
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 13px;
 	display: flex;
+	align-items: center;
+	color: #444;
+}
+
+.buttons {
+	display: flex;
+}
+
+.buttons-row-0 {
+	margin-right: 40px;
+}
+.buttons-row-1 {
+	margin-right: 20px;
+}
+.buttons-row-2 {
+	margin-right: 0px;
 }

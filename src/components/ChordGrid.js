@@ -7,9 +7,10 @@ import daccord from 'daccord';
 const ChordGrid = (props) => (
 	<div className={styles.chordgrid}>
 		<RootRow notes={props.notes} />
-		{props.families.map(i => <ChordRow
-			key={i.title}
-			family={i}
+		{props.families.map((f, i) => <ChordRow
+			key={f.title}
+			index={i}
+			family={f}
 			updateChord={props.updateChord}
 			chords={props.chords}
 		/>)}

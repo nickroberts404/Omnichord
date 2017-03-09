@@ -1,9 +1,14 @@
-.rootrow {
+.rootRow {
+	display: flex;
+	margin-right: 40px;
+	align-self: flex-end;
 }
-.roottitle {
-	display: inline-block;
+.rootTitle {
 	width: 40px;
-	height: 40px;
-	background: lightgreen;
-	border: 1px solid #ddd;
+	/*border: 1px solid #eee;*/
+	margin-right: 7px;
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	color: #444;
 }
