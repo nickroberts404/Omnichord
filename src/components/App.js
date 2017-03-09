@@ -8,7 +8,8 @@ import teoria from 'teoria';
 export default class App extends Component {
 	constructor(props) {
 		super(props);
-		const synth = new Tone.PolySynth(4, Tone.Synth).toMaster();
+		const reverb = new Tone.Freeverb(0.85, 4000).toMaster();
+		const synth = new Tone.PolySynth(4, Tone.Synth).connect(reverb);
 		this.state = {
 			chords: [],
 			hold: false,
@@ -61,7 +62,6 @@ export default class App extends Component {
 				if(oldChord) synth.triggerRelease(chordInfo(oldChord).freq)
 				if(newChord) synth.triggerAttack(chordInfo(newChord).freq)
 			}
-			
 		}
 		this.setState({chords: newChords})
 	}
