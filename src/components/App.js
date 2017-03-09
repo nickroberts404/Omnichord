@@ -35,33 +35,34 @@ export default class App extends Component {
 		});
 	}
 
-	addChord(old, chord, hold) {
-		return hold ? [chord] : old.concat([chord]);
+	addChord(old, chord, hold, synth) {
+		const newChords =  hold ? [chord] : old.concat([chord]);
+		const oldChord = old[old.length-1] || null;
+		if(oldChord) synth.triggerRelease(chordInfo(oldChord).freq)
+		synth.triggerAttack(chordInfo(newChords[newChords.length-1]).freq)
+		return newChords;
 	}
 
-	removeChord(old, chord, hold) {
-		return hold ? [old[0]] : old.filter(i => chord.toString() !== i.toString());
+	removeChord(old, chord, hold, synth) {
+		const newChords =  hold ? [old[0]] : old.filter(i => chord.toString() !== i.toString());
+		const newChord = newChords[newChords.length-1] || null;
+		const oldChord = old[old.length-1] || null;
+		if((newChord && oldChord) && (newChord.toString() === oldChord.toString())){
+			// Don't do anything if a note is removed, but topmost note remains the same
+		} else {
+			if(oldChord) synth.triggerRelease(chordInfo(oldChord).freq)
+			if(newChord) synth.triggerAttack(chordInfo(newChord).freq)
+		}
+		return newChords;
 	}
 
 	updateChords(chord, add) {
 		let newChords;
 		const {chords, synth, hold} = this.state;
-		const oldChord = chords[chords.length-1] || null;
-		if(add) {
-			newChords = this.addChord(chords, chord, hold);
-			if(oldChord) synth.triggerRelease(chordInfo(oldChord).freq)
-			synth.triggerAttack(chordInfo(newChords[newChords.length-1]).freq)
-		}
-		else {
-			newChords = this.removeChord(chords, chord, hold);
-			const newChord = newChords[newChords.length-1] || null;
-			if((newChord && oldChord) && (newChord.toString() === oldChord.toString())){
-				// Don't do anything if a note is removed, but topmost note remains the same
-			} else {
-				if(oldChord) synth.triggerRelease(chordInfo(oldChord).freq)
-				if(newChord) synth.triggerAttack(chordInfo(newChord).freq)
-			}
-		}
+		if(add) newChords = this.addChord(chords, chord, hold, synth);
+		else if(chords.length > 0) newChords = this.removeChord(chords, chord, hold, synth);
+		else return false;
+
 		this.setState({chords: newChords})
 	}
 	
