@@ -8,11 +8,12 @@ import teoria from 'teoria';
 export default class App extends Component {
 	constructor(props) {
 		super(props);
-		// const reverb = new Tone.Freeverb(0.85, 4000).toMaster();
-		const synth = new Tone.PolySynth(4, Tone.FMSynth).toMaster();
+		const reverb = new Tone.Freeverb(0.85, 4000).toMaster();
+		const synth = new Tone.PolySynth(4, Tone.Synth).toMaster();
 		this.state = {
 			chords: [],
 			hold: false,
+			octave: 0,
 			families:[families.major, families.minor, families.seventh],
 			synth
 		}
@@ -82,9 +83,8 @@ export default class App extends Component {
 };
 
 function chordInfo(chord) {
-	const notes = chord.intervals.map(chord.root.interval.bind(chord.root))
-	const freq = notes.map(i => i.fq());
-	return {notes, freq};
+	const freq = chord.notes().map(i => i.fq());
+	return {notes: chord.notes(), freq};
 }
 
 function getChord(note, suffix) {
