@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import styles from './App.css';
 import ChordGrid from './ChordGrid';
-import HoldButton from './HoldButton';
+// import HoldButton from './HoldButton';
 import Tone from 'Tone';
 import teoria from 'teoria';
 
 export default class App extends Component {
 	constructor(props) {
 		super(props);
-		const reverb = new Tone.Freeverb(0.85, 4000).toMaster();
-		const synth = new Tone.PolySynth(4, Tone.Synth).connect(reverb);
+		// const reverb = new Tone.Freeverb(0.85, 4000).toMaster();
+		const synth = new Tone.PolySynth(4, Tone.FMSynth).toMaster();
 		this.state = {
 			chords: [],
 			hold: false,
@@ -35,27 +35,26 @@ export default class App extends Component {
 		});
 	}
 
-	addChord(old, chord) {
-		return old.concat([chord]);
+	addChord(old, chord, hold) {
+		return hold ? [chord] : old.concat([chord]);
 	}
 
-	removeChord(old, chord) {
-		return old.filter(i => chord.toString() !== i.toString());
+	removeChord(old, chord, hold) {
+		return hold ? [old[0]] : old.filter(i => chord.toString() !== i.toString());
 	}
 
 	updateChords(chord, add) {
 		let newChords;
 		const {chords, synth, hold} = this.state;
-
+		const oldChord = chords[chords.length-1] || null;
 		if(add) {
-			newChords = this.addChord(chords, chord);
-			if(chords.length > 0) synth.triggerRelease(chordInfo(chords[chords.length-1]).freq)
+			newChords = this.addChord(chords, chord, hold);
+			if(oldChord) synth.triggerRelease(chordInfo(oldChord).freq)
 			synth.triggerAttack(chordInfo(newChords[newChords.length-1]).freq)
 		}
 		else {
-			newChords = this.removeChord(chords, chord);
+			newChords = this.removeChord(chords, chord, hold);
 			const newChord = newChords[newChords.length-1] || null;
-			const oldChord = chords[chords.length-1] || null;
 			if((newChord && oldChord) && (newChord.toString() === oldChord.toString())){
 				// Don't do anything if a note is removed, but topmost note remains the same
 			} else {
@@ -76,14 +75,12 @@ export default class App extends Component {
 			<div className={styles.app}>
 				<h2>Omnichord</h2>
 				<ChordGrid families={families} notes={notes} updateChord={this.updateChords.bind(this)}/>
-				<HoldButton value={hold} updateHold={this.updateHold.bind(this)} />
 			</div>
 		)
 	}
 };
 
 function chordInfo(chord) {
-	console.log(chord)
 	const notes = chord.intervals.map(chord.root.interval.bind(chord.root))
 	const freq = notes.map(i => i.fq());
 	return {notes, freq};
