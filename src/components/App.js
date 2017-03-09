@@ -8,8 +8,7 @@ import teoria from 'teoria';
 export default class App extends Component {
 	constructor(props) {
 		super(props);
-		const reverb = new Tone.Freeverb(0.85, 4000).toMaster();
-		const synth = new Tone.PolySynth(4, Tone.Synth).toMaster();
+		const synth = new Tone.PolySynth(4, Tone.MonoSynth).toMaster();
 		this.state = {
 			chords: [],
 			hold: false,
@@ -36,33 +35,23 @@ export default class App extends Component {
 		});
 	}
 
-	addChord(old, chord, hold, synth) {
-		const newChords =  hold ? [chord] : old.concat([chord]);
-		const oldChord = old[old.length-1] || null;
-		if(oldChord) synth.triggerRelease(chordInfo(oldChord).freq)
-		synth.triggerAttack(chordInfo(newChords[newChords.length-1]).freq)
-		return newChords;
-	}
+	updateChords(chord, add) {
+		let newChords;
+		const {chords, synth, hold, octave} = this.state;
 
-	removeChord(old, chord, hold, synth) {
-		const newChords =  hold ? [old[0]] : old.filter(i => chord.toString() !== i.toString());
+		if(add) newChords =  hold ? [chord] : chords.concat([chord]);
+		else if(chords.length > 0) newChords =  hold ? [old[0]] : chords.filter(i => chord.toString() !== i.toString());
+		else return false;
+
 		const newChord = newChords[newChords.length-1] || null;
-		const oldChord = old[old.length-1] || null;
+		const oldChord = chords[chords.length-1] || null;
+		const interval = `P${(octave * 7) + 1}`
 		if((newChord && oldChord) && (newChord.toString() === oldChord.toString())){
 			// Don't do anything if a note is removed, but topmost note remains the same
 		} else {
-			if(oldChord) synth.triggerRelease(chordInfo(oldChord).freq)
-			if(newChord) synth.triggerAttack(chordInfo(newChord).freq)
+			if(oldChord) synth.triggerRelease(chordInfo(oldChord.interval(interval)).freq)
+			if(newChord) synth.triggerAttack(chordInfo(newChord.interval(interval)).freq)
 		}
-		return newChords;
-	}
-
-	updateChords(chord, add) {
-		let newChords;
-		const {chords, synth, hold} = this.state;
-		if(add) newChords = this.addChord(chords, chord, hold, synth);
-		else if(chords.length > 0) newChords = this.removeChord(chords, chord, hold, synth);
-		else return false;
 
 		this.setState({chords: newChords})
 	}
@@ -87,7 +76,7 @@ function chordInfo(chord) {
 	return {notes: chord.notes(), freq};
 }
 
-function getChord(note, suffix) {
+function getChord(note, suffix, octave) {
 	const rootNote = teoria.note(note);
 	return rootNote.chord(suffix);
 }
