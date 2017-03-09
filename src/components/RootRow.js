@@ -4,7 +4,7 @@ import styles from './RootRow.css';
 const RootRow = (props) => {
 	return (
 		<div className={styles.rootrow}>
-			{props.notes.map(i => <div className={styles.roottitle}>{i}</div> )}
+			{props.notes.map(i => <div key={i} className={styles.roottitle}>{i}</div> )}
 		</div>
 	)
 };

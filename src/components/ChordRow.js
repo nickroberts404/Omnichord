@@ -6,7 +6,8 @@ const ChordRow = (props) => {
 	const { family, updateChord } = props;
 	return (
 		<div className={styles.chordrow}>
-			{family.chords.map(chord => <ChordButton 
+			{family.chords.map(chord => <ChordButton
+				key={chord.toString()}
 				root={chord.root}
 				chord={chord}
 				updateChord={updateChord}
