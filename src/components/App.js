@@ -70,11 +70,11 @@ export default class App extends Component {
 	}
 
 	render() {
-		const { hold, families } = this.state;
+		const { hold, families, chords } = this.state;
 		return (
 			<div className={styles.app}>
 				<h2>Omnichord</h2>
-				<ChordGrid families={families} notes={notes} updateChord={this.updateChords.bind(this)}/>
+				<ChordGrid families={families} notes={notes} updateChord={this.updateChords.bind(this)} chords={chords}/>
 			</div>
 		)
 	}

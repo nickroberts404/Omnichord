@@ -11,6 +11,7 @@ const ChordGrid = (props) => (
 			key={i.title}
 			family={i}
 			updateChord={props.updateChord}
+			chords={props.chords}
 		/>)}
 	</div>
 );

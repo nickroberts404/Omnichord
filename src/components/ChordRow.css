@@ -1,2 +1,10 @@
-.chordrow {
+.chord-row {
+	display: flex;
+	margin-top: 5px;
+}
+.chord-row-title {
+	width: 100px;
+}
+.chord-row-buttons {
+	display: flex;
 }
