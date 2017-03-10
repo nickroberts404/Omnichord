@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styles from './App.css';
 import ChordGrid from './ChordGrid';
+import OctaveControl from './OctaveControl';
 // import HoldButton from './HoldButton';
 import Tone from 'Tone';
 import teoria from 'teoria';
@@ -49,7 +50,8 @@ export default class App extends Component {
 		if((newChord && oldChord) && (newChord.toString() === oldChord.toString())){
 			// Don't do anything if a note is removed, but topmost note remains the same
 		} else {
-			if(oldChord) synth.triggerRelease(chordInfo(oldChord.interval(interval)).freq)
+			// if(oldChord) synth.triggerRelease(chordInfo(oldChord.interval(interval)).freq)
+			if(oldChord) synth.releaseAll()
 			if(newChord) synth.triggerAttack(chordInfo(newChord.interval(interval)).freq)
 		}
 
@@ -60,12 +62,17 @@ export default class App extends Component {
 		this.setState({hold});
 	}
 
+	updateOctave(octave) {
+		this.setState({octave});
+	}
+
 	render() {
-		const { hold, families, chords } = this.state;
+		const { hold, families, chords, octave } = this.state;
 		return (
 			<div className={styles.app}>
 				<h2>Omnichord</h2>
 				<ChordGrid families={families} notes={notes} updateChord={this.updateChords.bind(this)} chords={chords}/>
+				<OctaveControl updateOctave={this.updateOctave.bind(this)} octave={octave}/>
 			</div>
 		)
 	}
