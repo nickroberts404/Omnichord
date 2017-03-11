@@ -46,7 +46,7 @@ export default class App extends Component {
 
 		const newChord = newChords[newChords.length-1] || null;
 		const oldChord = chords[chords.length-1] || null;
-		const interval = `P${(octave * 7) + 1}`
+		const interval = getInterval(octave)
 		if((newChord && oldChord) && (newChord.toString() === oldChord.toString())){
 			// Don't do anything if a note is removed, but topmost note remains the same
 		} else {
@@ -86,6 +86,10 @@ function chordInfo(chord) {
 function getChord(note, suffix, octave) {
 	const rootNote = teoria.note(note);
 	return rootNote.chord(suffix);
+}
+
+function getInterval(octave) {
+	return `P${(octave * 7) + (octave < 0 ? -1 : 1)}`
 }
 
 const notes = ['Db', 'Ab', 'Eb', 'Bb', 'F', 'C', 'G', 'D', 'A', 'E', 'B', 'F#'];
