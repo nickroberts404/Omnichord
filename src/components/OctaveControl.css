@@ -1,3 +1,22 @@
 .octave-control{
-	
+	display: flex;
+	align-items: center;
+	color: #444;
+	margin-top: 10px;
+}
+
+.octave-down, .octave-up {
+	font-size: 20px;
+	font-weight: bold;
+	padding: 0 8px;
+	cursor: pointer;
+	color: #666;
+}
+.octave-down:hover, .octave-up:hover {
+	color: #222;
+}
+
+.octave-display {
+	font-size: 14px;
+
 }

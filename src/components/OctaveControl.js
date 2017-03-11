@@ -17,9 +17,9 @@ export default class OctaveControl extends Component {
 		const { octave } = this.props;
 		return(
 			<div className={styles['octave-control']}>
-				<div className="octave-down" onClick={this.lowerOctave.bind(this)}>&lt;</div>
-				<div className="octave-display">Oct {octave}</div>
-				<div className="octave-up" onClick={this.raiseOctave.bind(this)}>&gt;</div>
+				<div className={styles["octave-down"]} onClick={this.lowerOctave.bind(this)}>&lt;</div>
+				<div className={styles["octave-display"]}>Oct {octave}</div>
+				<div className={styles["octave-up"]} onClick={this.raiseOctave.bind(this)}>&gt;</div>
 			</div>
 		)
 	}
