@@ -5,21 +5,21 @@
 	margin-top: 10px;
 }
 
-.octave-down, .octave-up {
+.octave-control-down, .octave-control-up {
 	font-size: 15px;
 	font-weight: bold;
 	padding: 0 8px;
 	cursor: pointer;
 	color: #aaa;
 }
-.octave-down:hover, .octave-up:hover {
+.octave-control-down:hover, .octave-control-up:hover {
 	color: #777;
 }
-.octave-down {
+.octave-control-down {
 	transform: rotate(-180deg);
 }
 
-.octave-display {
+.octave-control-display {
 	font-size: 14px;
 
 }

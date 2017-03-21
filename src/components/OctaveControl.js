@@ -6,7 +6,8 @@ export default class OctaveControl extends Component {
 	render() {
 		const { octave, updateOctave } = this.props;
 		return(
-			<Selection 
+			<Selection
+				className="octave-control"
 				options={[-3, -2, -1, 0, 1, 2, 3]}
 				value={octave}
 				display={oct => 'Oct '+oct}

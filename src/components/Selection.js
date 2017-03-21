@@ -13,7 +13,6 @@ const styles = {
 		fontWeight: 'bold',
 		padding: '0 8px',
 		cursor: 'pointer',
-		color: '#aaa'
 	},
 	down: {
 		transform: 'rotate(-180deg)'
@@ -37,17 +36,17 @@ export default class Selection extends Component {
 	}
 
 	render() {
-		const { showButtons, display, value } = this.props;
+		const { showButtons, display, value, className } = this.props;
 		if(showButtons) return (
-			<div style={styles.control} className='selecto-control'>
-				<div style={Object.assign({}, styles.button, styles.down)} className='selecto-button selecto-down' onClick={this.down.bind(this)}>&#9654;</div>
-				<div style={styles.display} className='selecto-display'>{display(value)}</div>
-				<div style={styles.button} className='selecto-button selecto-up' onClick={this.up.bind(this)}>&#9654;</div>
+			<div style={styles.control} className={className}>
+				<div style={Object.assign({}, styles.button, styles.down)} className={`${className}-button ${className}-down`} onClick={this.down.bind(this)}>&#9654;</div>
+				<div style={styles.display} className={className + '-display'}>{display(value)}</div>
+				<div style={styles.button} className={`${className}-button ${className}-up`} onClick={this.up.bind(this)}>&#9654;</div>
 			</div>
 		)
 		else return (
-			<div style={styles.control} className='selecto-control'>
-				<div style={Object.assign({cursor: 'pointer'}, styles.display)} className='selecto-display' onClick={this.up.bind(this)}>{display(value)}</div>
+			<div style={styles.control} className={className}>
+				<div style={Object.assign({cursor: 'pointer'}, styles.display)} className={className + '-display'} onClick={this.up.bind(this)}>{display(value)}</div>
 			</div>
 		)
 	}
@@ -66,10 +65,12 @@ Selection.propTypes = {
 	cyclic: PropTypes.bool,
 	onChange: PropTypes.func,
 	showButtons: PropTypes.bool,
-	display: PropTypes.func
+	display: PropTypes.func,
+	className: PropTypes.string,
 }
 
 Selection.defaultProps = {
+	className: 'selecto',
 	cyclic: true,
 	showButtons: true,
 	display: value => value,
