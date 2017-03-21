@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 .chord-button {
 	width: 40px;
 	height: 30px;
@@ -6,23 +8,16 @@
 	cursor: pointer;
 	border-radius: 6px;
 	transition: 0.15s ease all;
-}
-.chord-button:hover {
-	background: #d1c4e9;
-	border-color: #d1c4e9;
-}
-
-.active {
-	background: #9575cd;
-	border-color: #9575cd;
-}
-
-.active:hover {
-	background: #9575cd;
-	border-color: #9575cd;
-}
-
-.held {
-	background: #d1c4e9;
-	border-color: #d1c4e9;
+	&:hover {
+		background: $primary-faded-color;
+		border-color: $primary-faded-color;
+	}
+	.active, .active:hover {
+		background: $primary-color;
+		border-color: $primary-color;
+	}
+	.held {
+		background: $primary-faded-color;
+		border-color: $primary-faded-color;
+	}
 }
