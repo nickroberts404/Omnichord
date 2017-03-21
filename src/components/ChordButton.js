@@ -1,13 +1,13 @@
 import React from 'react';
-import styles from './ChordButton.css';
+import '../styles/ChordButton.scss';
 
 const ChordButton = (props) => {
 	const { root, chord, updateChord, chords} = props;
-	let className = styles['chord-button']
+	let className = 'chord-button'
 	const isActive = chords.length > 0 && (chords[chords.length-1].toString() === chord.toString());
 	const isHeld = chords.some(i => i.toString() === chord.toString());
-	if(isActive) className += ' '+styles['active']
-	else if(isHeld) className += ' '+styles['held']
+	if(isActive) className += ' active';
+	else if(isHeld) className += ' held';
 	return (
 		<div 
 			className={className}

@@ -1,10 +1,10 @@
 import React from 'react';
-import styles from './RootRow.css';
+import '../styles/RootRow.scss';
 
 const RootRow = (props) => {
 	return (
-		<div className={styles.rootRow}>
-			{props.notes.map(i => <div key={i} className={styles.rootTitle}>{i}</div> )}
+		<div className='root-row'>
+			{props.notes.map(i => <div key={i} className='root-title'>{i}</div> )}
 		</div>
 	)
 };

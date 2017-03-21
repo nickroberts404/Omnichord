@@ -5,7 +5,7 @@
 	width: 670px;
 }
 
-.title {
+.chord-row-title {
 	text-transform: uppercase;
 	font-weight: bold;
 	font-size: 13px;
@@ -14,16 +14,16 @@
 	color: #444;
 }
 
-.buttons {
+.chord-buttons {
 	display: flex;
 }
 
-.buttons-row-0 {
+.chord-buttons-row-0 {
 	margin-right: 40px;
 }
-.buttons-row-1 {
+.chord-buttons-row-1 {
 	margin-right: 20px;
 }
-.buttons-row-2 {
+.chord-buttons-row-2 {
 	margin-right: 0px;
 }

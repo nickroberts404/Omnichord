@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import styles from './App.css';
+import '../styles/main.scss';
 import ChordGrid from './ChordGrid';
 import OctaveControl from './OctaveControl';
-// import HoldButton from './HoldButton';
 import Tone from 'Tone';
-import teoria from 'teoria';
+import { families, keyMap, keys, notes } from '../constants';
+import { getFrequencies, getChord, getInterval } from '../theory.js'
 
 export default class App extends Component {
 	constructor(props) {
@@ -50,9 +50,9 @@ export default class App extends Component {
 		if((newChord && oldChord) && (newChord.toString() === oldChord.toString())){
 			// Don't do anything if a note is removed, but topmost note remains the same
 		} else {
-			// if(oldChord) synth.triggerRelease(chordInfo(oldChord.interval(interval)).freq)
+			// if(oldChord) synth.triggerRelease(getFrequencies(oldChord.interval(interval)))
 			if(oldChord) synth.releaseAll()
-			if(newChord) synth.triggerAttack(chordInfo(newChord.interval(interval)).freq)
+			if(newChord) synth.triggerAttack(getFrequencies(newChord.interval(interval)))
 		}
 
 		this.setState({chords: newChords})
@@ -69,7 +69,7 @@ export default class App extends Component {
 	render() {
 		const { hold, families, chords, octave } = this.state;
 		return (
-			<div className={styles.app}>
+			<div className='app'>
 				<h2>Omnichord</h2>
 				<ChordGrid families={families} notes={notes} updateChord={this.updateChords.bind(this)} chords={chords}/>
 				<OctaveControl updateOctave={this.updateOctave.bind(this)} octave={octave}/>
@@ -78,47 +78,3 @@ export default class App extends Component {
 	}
 };
 
-function chordInfo(chord) {
-	const freq = chord.notes().map(i => i.fq());
-	return {notes: chord.notes(), freq};
-}
-
-function getChord(note, suffix, octave) {
-	const rootNote = teoria.note(note);
-	return rootNote.chord(suffix);
-}
-
-function getInterval(octave) {
-	return `P${(octave * 7) + (octave < 0 ? -1 : 1)}`
-}
-
-const notes = ['Db', 'Ab', 'Eb', 'Bb', 'F', 'C', 'G', 'D', 'A', 'E', 'B', 'F#'];
-
-const keys = [
-	[81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221],
-	[65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 222, 13],
-	[90, 88, 67, 86, 66, 78, 77, 188, 190, 191, 16, 220],
-];
-
-const keyMap = keys.reduce((obja, row, i) => {
-	let o = row.reduce((objb, code, j) => Object.assign({}, objb, {[code]: [i, j]}), {})
-	return Object.assign({}, obja, o)
-}, {});
-
-const families = {
-	major: {
-		title: 'Major',
-		suffix: 'M',
-		chords: notes.map(i => getChord(i, 'M'))
-	},
-	minor: {
-		title: 'Minor',
-		suffix: 'm',
-		chords: notes.map(i => getChord(i, 'm'))
-	},
-	seventh: {
-		title: '7th',
-		suffix: 'maj7',
-		chords: notes.map(i => getChord(i, 'maj7'))
-	}
-};

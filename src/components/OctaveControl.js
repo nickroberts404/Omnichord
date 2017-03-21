@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styles from './OctaveControl.css';
+import '../styles/OctaveControl.scss';
 
 export default class OctaveControl extends Component {
 
@@ -16,10 +16,10 @@ export default class OctaveControl extends Component {
 	render() {
 		const { octave } = this.props;
 		return(
-			<div className={styles['octave-control']}>
-				<div className={styles["octave-down"]} onClick={this.lowerOctave.bind(this)}>&#9654;</div>
-				<div className={styles["octave-display"]}>Oct {octave}</div>
-				<div className={styles["octave-up"]} onClick={this.raiseOctave.bind(this)}>&#9654;</div>
+			<div className='octave-control'>
+				<div className='octave-down' onClick={this.lowerOctave.bind(this)}>&#9654;</div>
+				<div className='octave-display'>Oct {octave}</div>
+				<div className='octave-up' onClick={this.raiseOctave.bind(this)}>&#9654;</div>
 			</div>
 		)
 	}
