@@ -1,26 +1,17 @@
 import React, { Component } from 'react';
+import Selection from './selection';
 import '../styles/OctaveControl.scss';
 
 export default class OctaveControl extends Component {
-
-	raiseOctave() {
-		const { octave, updateOctave } = this.props;
-		updateOctave(octave + 1);
-	}
-
-	lowerOctave() {
-		const { octave, updateOctave } = this.props;
-		updateOctave(octave - 1);
-	}
-
 	render() {
-		const { octave } = this.props;
+		const { octave, updateOctave } = this.props;
 		return(
-			<div className='octave-control'>
-				<div className='octave-down' onClick={this.lowerOctave.bind(this)}>&#9654;</div>
-				<div className='octave-display'>Oct {octave}</div>
-				<div className='octave-up' onClick={this.raiseOctave.bind(this)}>&#9654;</div>
-			</div>
+			<Selection 
+				options={[-3, -2, -1, 0, 1, 2, 3]}
+				value={octave}
+				display={oct => 'Oct '+oct}
+				cyclic={false}
+				onChange={updateOctave} />
 		)
 	}
 };

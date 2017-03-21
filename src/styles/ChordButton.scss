@@ -12,11 +12,11 @@
 		background: $primary-faded-color;
 		border-color: $primary-faded-color;
 	}
-	.active, .active:hover {
+	&.active, &.active:hover {
 		background: $primary-color;
 		border-color: $primary-color;
 	}
-	.held {
+	&.held {
 		background: $primary-faded-color;
 		border-color: $primary-faded-color;
 	}
