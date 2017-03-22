@@ -3,6 +3,7 @@ import '../styles/main.scss';
 import ChordGrid from './ChordGrid';
 import OctaveControl from './OctaveControl';
 import Tone from 'Tone';
+import MidiOutput from './MidiOutput';
 import { families, keyMap, keys, notes } from '../constants';
 import { getFrequencies, getChord, getInterval } from '../theory.js'
 
@@ -18,6 +19,7 @@ export default class App extends Component {
 			activeFamilies:[families[0], families[1], families[2]],
 			mute: false,
 			volumeObj: vol,
+			outputs: [],
 			synth
 		}
 	}
@@ -74,6 +76,10 @@ export default class App extends Component {
 		this.setState({activeFamilies})
 	}
 
+	updateOutputs(outputs) {
+		this.setState({outputs});
+	}
+
 	toggleMute() {
 		const { mute, volumeObj} = this.state;
 		const next = !this.state.mute;
@@ -82,13 +88,14 @@ export default class App extends Component {
 	}
 
 	render() {
-		const { hold, activeFamilies, chords, octave } = this.state;
+		const { hold, activeFamilies, chords, octave, mute, outputs } = this.state;
 		return (
 			<div className='app'>
 				<h2>Omnichord</h2>
 				<ChordGrid updateFamily={this.updateFamily.bind(this)} families={families} activeFamilies={activeFamilies} notes={notes} updateChord={this.updateChords.bind(this)} chords={chords}/>
 				<OctaveControl updateOctave={this.updateOctave.bind(this)} octave={octave}/>
-				<button onClick={this.toggleMute.bind(this)}>Mute</button>
+				<button onClick={this.toggleMute.bind(this)}>{mute ? 'Unmute' : 'Mute'}</button>
+				<MidiOutput active={outputs} updateOutputs={this.updateOutputs.bind(this)}/>
 			</div>
 		)
 	}
