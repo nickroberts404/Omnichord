@@ -51,6 +51,7 @@ export default class App extends Component {
 			// Don't do anything if a note is removed, but topmost note remains the same
 		} else {
 			// if(oldChord) synth.triggerRelease(getFrequencies(oldChord.interval(interval)))
+			console.log('heyeyyye')
 			if(oldChord) synth.releaseAll()
 			if(newChord) synth.triggerAttack(getFrequencies(newChord.interval(interval)))
 		}
