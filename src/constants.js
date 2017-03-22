@@ -28,5 +28,10 @@ export const families = [
 		title: '7th',
 		suffix: 'maj7',
 		chords: notes.map(i => getChord(i, 'maj7'))
-	}
+	},
+	{
+		title: 'm7th',
+		suffix: 'min7',
+		chords: notes.map(i => getChord(i, 'min7'))
+	},
 ];
