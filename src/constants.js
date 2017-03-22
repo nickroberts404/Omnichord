@@ -13,20 +13,20 @@ export const keyMap = keys.reduce((obja, row, i) => {
 	return Object.assign({}, obja, o)
 }, {});
 
-export const families = {
-	major: {
+export const families = [
+	{
 		title: 'Major',
 		suffix: 'M',
 		chords: notes.map(i => getChord(i, 'M'))
 	},
-	minor: {
+	{
 		title: 'Minor',
 		suffix: 'm',
 		chords: notes.map(i => getChord(i, 'm'))
 	},
-	seventh: {
+	{
 		title: '7th',
 		suffix: 'maj7',
 		chords: notes.map(i => getChord(i, 'maj7'))
 	}
-};
+];

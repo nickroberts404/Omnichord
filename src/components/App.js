@@ -14,7 +14,7 @@ export default class App extends Component {
 			chords: [],
 			hold: false,
 			octave: 0,
-			families:[families.major, families.minor, families.seventh],
+			activeFamilies:[families[0], families[1], families[2]],
 			synth
 		}
 	}
@@ -23,14 +23,14 @@ export default class App extends Component {
 		window.addEventListener('keydown', e => {
 			const mapping = keyMap[e.keyCode];
 			if(mapping && !e.repeat) {
-				const chord = this.state.families[mapping[0]].chords[mapping[1]];
+				const chord = this.state.activeFamilies[mapping[0]].chords[mapping[1]];
 				this.updateChords(chord, true);
 			}
 		});
 		window.addEventListener('keyup', e => {
 			const mapping = keyMap[e.keyCode];
 			if(mapping) {
-				const chord = this.state.families[mapping[0]].chords[mapping[1]];
+				const chord = this.state.activeFamilies[mapping[0]].chords[mapping[1]];
 				this.updateChords(chord, false);
 			}
 		});
@@ -66,12 +66,17 @@ export default class App extends Component {
 		this.setState({octave});
 	}
 
+	updateFamily(index, family) {
+		const activeFamilies = this.state.activeFamilies.map((f, i) => i === index ? family : f)
+		this.setState({activeFamilies})
+	}
+
 	render() {
-		const { hold, families, chords, octave } = this.state;
+		const { hold, activeFamilies, chords, octave } = this.state;
 		return (
 			<div className='app'>
 				<h2>Omnichord</h2>
-				<ChordGrid families={families} notes={notes} updateChord={this.updateChords.bind(this)} chords={chords}/>
+				<ChordGrid updateFamily={this.updateFamily.bind(this)} families={families} activeFamilies={activeFamilies} notes={notes} updateChord={this.updateChords.bind(this)} chords={chords}/>
 				<OctaveControl updateOctave={this.updateOctave.bind(this)} octave={octave}/>
 			</div>
 		)

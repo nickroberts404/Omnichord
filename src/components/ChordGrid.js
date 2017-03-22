@@ -2,14 +2,15 @@ import React from 'react';
 import '../styles/ChordGrid.scss';
 import ChordRow from './ChordRow';
 import RootRow from './RootRow';
-import daccord from 'daccord';
 
 const ChordGrid = (props) => (
 	<div className='chord-grid'>
 		<RootRow notes={props.notes} />
-		{props.families.map((f, i) => <ChordRow
-			key={f.title}
+		{props.activeFamilies.map((f, i) => <ChordRow
+			key={i}
 			index={i}
+			updateFamily={props.updateFamily}
+			families={props.families}
 			family={f}
 			updateChord={props.updateChord}
 			chords={props.chords}

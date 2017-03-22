@@ -22,50 +22,52 @@ const styles = {
 export default class Selection extends Component {
 
 	down() {
-		const { value, options, onChange, cyclic } = this.props;
-		const index = findIndex(options, value);
+		const { value, options, onChange, cyclic, getValue } = this.props;
+		const index = this.findIndex(options, value);
 		const nextIndex = cyclic ? (index-1 < 0 ? options.length-1 : index-1): Math.max(0, index-1);
-		onChange(options[nextIndex]);
+		onChange(getValue(options[nextIndex]));
 	}
 
 	up() {
-		const { value, options, onChange, cyclic } = this.props;
-		const index = findIndex(options, value);
+		const { value, options, onChange, cyclic, getValue } = this.props;
+		const index = this.findIndex(options, value);
 		const nextIndex = cyclic ? (index+1 >= options.length ? 0 : index+1): Math.min(options.length-1, index+1);
-		onChange(options[nextIndex]);
+		onChange(getValue(options[nextIndex]));
+	}
+
+	findIndex(options, value) {
+		const key = this.props.getKey(value);
+		for(var i=0; i < options.length; i++){
+			if(key === this.props.getKey(options[i])) return i;
+		}
+		return -1;
 	}
 
 	render() {
-		const { showButtons, display, value, className } = this.props;
+		const { showButtons, getDisplay, value, className } = this.props;
 		if(showButtons) return (
 			<div style={styles.control} className={className}>
 				<div style={Object.assign({}, styles.button, styles.down)} className={`${className}-button ${className}-down`} onClick={this.down.bind(this)}>&#9654;</div>
-				<div style={styles.display} className={className + '-display'}>{display(value)}</div>
+				<div style={styles.display} className={className + '-display'}>{getDisplay(value)}</div>
 				<div style={styles.button} className={`${className}-button ${className}-up`} onClick={this.up.bind(this)}>&#9654;</div>
 			</div>
 		)
 		else return (
 			<div style={styles.control} className={className}>
-				<div style={Object.assign({cursor: 'pointer'}, styles.display)} className={className + '-display'} onClick={this.up.bind(this)}>{display(value)}</div>
+				<div style={Object.assign({cursor: 'pointer'}, styles.display)} className={className + '-display'} onClick={this.up.bind(this)}>{getDisplay(value)}</div>
 			</div>
 		)
 	}
 };
-
-function findIndex(options, value) {
-	for(var i=0; i < options.length; i++){
-		const option = options[i];
-		if(option === value || option.value === value) return i;
-	}
-	return -1;
-}
 
 Selection.propTypes = {
 	options: PropTypes.array.isRequired,
 	cyclic: PropTypes.bool,
 	onChange: PropTypes.func,
 	showButtons: PropTypes.bool,
-	display: PropTypes.func,
+	getDisplay: PropTypes.func,
+	getValue: PropTypes.func,
+	getKey: PropTypes.func,
 	className: PropTypes.string,
 }
 
@@ -73,5 +75,7 @@ Selection.defaultProps = {
 	className: 'selecto',
 	cyclic: true,
 	showButtons: true,
-	display: value => value,
+	getDisplay: value => value,
+	getValue: value => value,
+	getKey: key => key,
 }
