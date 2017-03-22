@@ -9,12 +9,15 @@ import { getFrequencies, getChord, getInterval } from '../theory.js'
 export default class App extends Component {
 	constructor(props) {
 		super(props);
-		const synth = new Tone.PolySynth(4, Tone.MonoSynth).toMaster();
+		const vol = new Tone.Volume(-10)
+		const synth = new Tone.PolySynth(4, Tone.MonoSynth).chain(vol, Tone.Master);
 		this.state = {
 			chords: [],
 			hold: false,
 			octave: 0,
 			activeFamilies:[families[0], families[1], families[2]],
+			mute: false,
+			volumeObj: vol,
 			synth
 		}
 	}
@@ -51,7 +54,6 @@ export default class App extends Component {
 			// Don't do anything if a note is removed, but topmost note remains the same
 		} else {
 			// if(oldChord) synth.triggerRelease(getFrequencies(oldChord.interval(interval)))
-			console.log('heyeyyye')
 			if(oldChord) synth.releaseAll()
 			if(newChord) synth.triggerAttack(getFrequencies(newChord.interval(interval)))
 		}
@@ -72,6 +74,13 @@ export default class App extends Component {
 		this.setState({activeFamilies})
 	}
 
+	toggleMute() {
+		const { mute, volumeObj} = this.state;
+		const next = !this.state.mute;
+		volumeObj.mute = next;
+		this.setState({mute: next})
+	}
+
 	render() {
 		const { hold, activeFamilies, chords, octave } = this.state;
 		return (
@@ -79,6 +88,7 @@ export default class App extends Component {
 				<h2>Omnichord</h2>
 				<ChordGrid updateFamily={this.updateFamily.bind(this)} families={families} activeFamilies={activeFamilies} notes={notes} updateChord={this.updateChords.bind(this)} chords={chords}/>
 				<OctaveControl updateOctave={this.updateOctave.bind(this)} octave={octave}/>
+				<button onClick={this.toggleMute.bind(this)}>Mute</button>
 			</div>
 		)
 	}
